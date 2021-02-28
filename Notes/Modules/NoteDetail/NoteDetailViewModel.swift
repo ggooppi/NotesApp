@@ -63,7 +63,11 @@ class NoteDetailViewModelImpl: NoteDetailViewModel {
         var attributedString = NSAttributedString(string: updateString, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 21), NSAttributedString.Key.foregroundColor: UIColor.white])
         
         for item in 0..<identifiedTextMatches.count {
-            attributedString =  attributedURLText(withString: attributedString.string, url: identifiedURLMatches[item], valueURL: identifiedTextMatches[item],valueBold: identiedMatches.first ?? "" ,font: UIFont.systemFont(ofSize: 21))
+            attributedString =  attributedURLText(withString: attributedString.string,
+                                                  url: identifiedURLMatches[item],
+                                                  valueURL: identifiedTextMatches[item],
+                                                  valueBold: item < identiedMatches.count ? identiedMatches[item]: "" ,
+                                                  font: UIFont.systemFont(ofSize: 21))
         }
        
         return attributedString

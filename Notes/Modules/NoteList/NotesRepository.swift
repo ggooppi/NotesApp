@@ -40,7 +40,6 @@ class NotesRepositoryImpl: NotesRepository {
         let request: NSFetchRequest<Note> = Note.fetchRequest()
         do {
             var notesArray: [Note] = try context.fetch(request)
-            print("Data from database count: \(notesArray.count)")
             notes.forEach { (noteFromWeb) in
                 let hasItem = notesArray.contains(where: {$0.id == noteFromWeb.id})
                 if !hasItem{

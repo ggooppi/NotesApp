@@ -116,11 +116,6 @@ class NoteListViewController: UIViewController {
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-//        self.navigationController?.pushViewController(NoteDetailViewController(), animated: true)
-    }
-    
     // MARK: - Constraints
     private func setupButton() {
         NSLayoutConstraint.activate([

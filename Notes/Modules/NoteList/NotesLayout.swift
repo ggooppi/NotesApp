@@ -46,27 +46,23 @@ class NotesLayout: UICollectionViewLayout {
     }
     
     override func prepare() {
-        // 1
+        
         guard
             let collectionView = collectionView
         else {
             return
         }
-        // 2
+        
         var columnWidth = contentWidth / CGFloat(numberOfColumns)
+        
         var xOffset: [CGFloat] = .init(repeating: 0, count: numberOfColumns)
         var yOffset: [CGFloat] = .init(repeating: 0, count: numberOfColumns)
-//        for column in 0..<numberOfColumns {
-//            xOffset.append(CGFloat(column) * columnWidth)
-//        }
+        
         var column = 0
         
-        
-        // 3
         for item in 0..<collectionView.numberOfItems(inSection: 0) {
             let indexPath = IndexPath(item: item, section: 0)
             
-            // 4
             let photoHeight = delegate?.collectionView(
                 collectionView,
                 heightForPhotoAtIndexPath: indexPath) ?? 180
@@ -108,17 +104,8 @@ class NotesLayout: UICollectionViewLayout {
                         xOffset[column] = CGFloat(column) * columnWidth
                     }
                     
-                   
-//                    if xOffset[column - 1] == 0 && yOffset[column - 1] == height{
-//                        xOffset[column] = contentWidth / CGFloat(numberOfColumns)
-//                    }else{
-//                        xOffset[column] = 0
-//                    }
-                    
                 }
             }
-            
-            print("\(item + 1)) (\(xOffset[column]), \(yOffset[column])), height: \(height)")
             
             let frame = CGRect(x: xOffset[column],
                                y: yOffset[column],
@@ -126,12 +113,10 @@ class NotesLayout: UICollectionViewLayout {
                                height: height)
             let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
             
-            // 5
             let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
             attributes.frame = insetFrame
             cache.append(attributes)
             
-            // 6
             contentHeight = max(contentHeight, frame.maxY)
             yOffset[column] = yOffset[column] + height
             
@@ -143,7 +128,6 @@ class NotesLayout: UICollectionViewLayout {
     -> [UICollectionViewLayoutAttributes]? {
         var visibleLayoutAttributes: [UICollectionViewLayoutAttributes] = []
         
-        // Loop through the cache and look for items in the rect
         for attributes in cache {
             if attributes.frame.intersects(rect) {
                 visibleLayoutAttributes.append(attributes)
