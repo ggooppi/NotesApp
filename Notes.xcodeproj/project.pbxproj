@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -115,7 +115,6 @@
 				DF0000A15C4B46E052214B89 /* Pods-Notes.debug.xcconfig */,
 				8A49DDA962CABB0BAD08B24B /* Pods-Notes.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -227,9 +226,9 @@
 		CC8B4A8025EB7DCD00A833A3 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				CC28737E25EC0F5100B41BEA /* Photos */,
-				CC8B4A8225EB8D0D00A833A3 /* NoteDetail */,
 				CC7C849F25E8BDB400F4A678 /* NoteList */,
+				CC8B4A8225EB8D0D00A833A3 /* NoteDetail */,
+				CC28737E25EC0F5100B41BEA /* Photos */,
 				CC8B4A6725EAD28600A833A3 /* CreateNote */,
 			);
 			path = Modules;

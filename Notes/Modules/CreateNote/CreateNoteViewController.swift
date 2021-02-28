@@ -56,7 +56,6 @@ class CreateNoteViewController: UIViewController {
         let textField = UITextField(frame: .zero)
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = .clear
-        textField.borderStyle = .roundedRect
         textField.attributedPlaceholder = NSAttributedString(string: "Title",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 32, weight: .semibold)])
         textField.font = UIFont.systemFont(ofSize: 32, weight: .semibold)
