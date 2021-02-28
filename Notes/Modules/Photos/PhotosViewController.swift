@@ -10,12 +10,14 @@ import CoreData
 
 class PhotosViewController: UIViewController {
     
-    var photoID: String?
-    
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+    
+    // MARK: - Properties
+    var photoID: String?
+    var images: [NoteImage] = []
+    
     
     lazy var fetchResultsControler: NSFetchedResultsController<NoteImage> = {
         let request: NSFetchRequest<NoteImage> = NoteImage.fetchRequest()
@@ -37,7 +39,9 @@ class PhotosViewController: UIViewController {
         return collectionView
     }()
     
-    func setupConstraints() {
+    
+    // MARK: - SetupUI
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -46,11 +50,14 @@ class PhotosViewController: UIViewController {
         ])
     }
     
-    func scrollTOSpecificCell() {
+    private func scrollTOSpecificCell() {
         guard let id = photoID else { return }
         guard let images = fetchResultsControler.fetchedObjects else { return }
         guard let index = images.firstIndex(where: {$0.id == id}) else { return }
-        collectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .left, animated: false)
+        self.images.append(contentsOf: images)
+        self.images.insert(images[index], at: 0)
+        self.images.remove(at: index + 1)
+        collectionView.reloadData()
     }
     
     private func collectionViewLayout() -> UICollectionViewLayout {
@@ -69,6 +76,26 @@ class PhotosViewController: UIViewController {
         return layout
     }
     
+    func setupUI() {
+        setupConstraints()
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
+        swipeRight.direction = .right
+        self.view.addGestureRecognizer(swipeRight)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
+        swipeRight.direction = .left
+        self.view.addGestureRecognizer(swipeLeft)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
+        swipeDown.direction = .down
+        self.view.addGestureRecognizer(swipeDown)
+        
+        self.hero.isEnabled = true
+        collectionView.hero.id = "skyWalker"
+    }
+    
+    // MARK: - Actions
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         
         
@@ -93,24 +120,7 @@ class PhotosViewController: UIViewController {
         }
     }
     
-    func setupUI() {
-        setupConstraints()
-        
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
-        swipeRight.direction = .right
-        self.view.addGestureRecognizer(swipeRight)
-        
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
-        swipeRight.direction = .left
-        self.view.addGestureRecognizer(swipeLeft)
-        
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
-        swipeDown.direction = .down
-        self.view.addGestureRecognizer(swipeDown)
-        
-//        scrollTOSpecificCell()
-    }
-    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -119,6 +129,7 @@ class PhotosViewController: UIViewController {
         
         do {
             try fetchResultsControler.performFetch()
+            scrollTOSpecificCell()
         } catch  {
             print(error)
         }
@@ -126,11 +137,6 @@ class PhotosViewController: UIViewController {
         
         setupUI()
         
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        scrollTOSpecificCell()
     }
     
     
@@ -149,13 +155,14 @@ class PhotosViewController: UIViewController {
 // MARK: - Extension
 extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let count = fetchResultsControler.sections?[0].numberOfObjects else { return 0 }
-        return count
+//        guard let count = fetchResultsControler.sections?[0].numberOfObjects else { return 0 }
+        return images.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewPhotoCell", for: indexPath) as! PhotoCollectionViewCell
-        let image = fetchResultsControler.object(at: indexPath)
+//        let image = fetchResultsControler.object(at: indexPath)
+        let image = images[indexPath.row]
         cell.photo.image = UIImage(data: image.data ?? Data())
         //        cell.setupUI(note: note)
         return cell

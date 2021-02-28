@@ -1,0 +1,16 @@
+PODS:
+  - Hero (1.6.0)
+
+DEPENDENCIES:
+  - Hero
+
+SPEC REPOS:
+  trunk:
+    - Hero
+
+SPEC CHECKSUMS:
+  Hero: 052b9b9bab68fc4e30cc04e5936eaf0de97b59d3
+
+PODFILE CHECKSUM: 7696200e3ae0e5ac206046ca838357803ba01b42
+
+COCOAPODS: 1.10.0

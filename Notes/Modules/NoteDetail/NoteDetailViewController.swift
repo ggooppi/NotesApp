@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Hero
 
 class NoteDetailViewController: UIViewController {
     
@@ -114,26 +115,16 @@ class NoteDetailViewController: UIViewController {
             closeButton.heightAnchor.constraint(equalToConstant: 48),
             closeButton.widthAnchor.constraint(equalToConstant: 48),
             
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
             stackView.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 16),
             stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
-            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             imageView.heightAnchor.constraint(equalToConstant: 220),
             
             activityImdicator.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
             activityImdicator.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
             
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
-            
-            dateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
-            dateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
-            
-            bodyTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
-            bodyTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
             bodyTextView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor)
         ])
     }
@@ -148,6 +139,8 @@ class NoteDetailViewController: UIViewController {
         titleLabel.text = data.title
         dateLabel.text = data.time!.getDate()
         bodyTextView.attributedText = viewModel.getUpdatedBodyText()
+        
+        imageView.hero.id = "skyWalker"
         
         if let image = data.imageData{
             guard let img = image.data else {
@@ -188,7 +181,7 @@ class NoteDetailViewController: UIViewController {
         
         closeButton.layer.cornerRadius = 10
         
-//        imageView.hero.id = "skyWalker"
+        imageView.hero.id = "skyWalker"
         
         
         if let patternImage = UIImage(named: "background") {
